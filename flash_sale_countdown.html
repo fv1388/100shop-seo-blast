@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>100shop Flash Sale Countdown | 100shop</title>
+<meta name="description" content="Live 100shop flash sale countdown widget. Grab limited-time deals on trending products with worldwide shipping.">
+<link rel="canonical" href="https://get100shop.com/">
+<meta name="robots" content="index,follow">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif}
+body{background:linear-gradient(135deg,#dc2626 0%,#7c3aed 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
+.card{background:#fff;border-radius:18px;max-width:440px;width:100%;padding:30px;text-align:center;box-shadow:0 18px 50px rgba(0,0,0,.3)}
+.flash{display:inline-block;background:#dc2626;color:#fff;font-weight:800;font-size:13px;letter-spacing:1px;padding:6px 14px;border-radius:999px;margin-bottom:14px;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.card h1{font-size:21px;color:#111827;margin-bottom:6px}
+.card .sub{font-size:13px;color:#6b7280;margin-bottom:20px}
+.timer{display:flex;justify-content:center;gap:12px;margin-bottom:22px}
+.t{background:#1f2937;color:#fff;border-radius:12px;padding:14px 10px;min-width:74px}
+.t .n{font-size:30px;font-weight:800}
+.t .l{font-size:11px;color:#9ca3af;text-transform:uppercase;margin-top:2px}
+.cta{display:inline-block;background:linear-gradient(90deg,#dc2626,#7c3aed);color:#fff;font-weight:800;font-size:16px;padding:15px 34px;border-radius:12px;text-decoration:none;box-shadow:0 8px 22px rgba(124,58,237,.4)}
+.cta:hover{opacity:.92}
+.note{font-size:12px;color:#6b7280;margin-top:14px}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="flash">⚡ FLASH SALE</div>
+  <h1>Limited-Time Deals End Soon</h1>
+  <p class="sub">Trending 100shop picks with worldwide shipping</p>
+  <div class="timer">
+    <div class="t"><div class="n" id="h">00</div><div class="l">Hours</div></div>
+    <div class="t"><div class="n" id="m">00</div><div class="l">Min</div></div>
+    <div class="t"><div class="n" id="s">00</div><div class="l">Sec</div></div>
+  </div>
+  <a class="cta" href="https://get100shop.com/">Shop the Sale Now →</a>
+  <p class="note">Hurry — deals rotate fast at 100shop.</p>
+</div>
+<script>
+// 24h countdown that resets daily
+let end=localStorage.getItem('fs_end');
+const day=Math.floor(Date.now()/86400000);
+const cur=day+'_end';
+if(end!==cur){end=cur;localStorage.setItem('fs_end',end);}
+let target=((Math.floor(Date.now()/86400000)+1)*86400000);
+function tick(){
+ const diff=target-Date.now();
+ if(diff<=0){target=((Math.floor(Date.now()/86400000)+1)*86400000);}
+ const h=Math.floor(diff/3600000);
+ const m=Math.floor(diff%3600000/60000);
+ const s=Math.floor(diff%60000/1000);
+ document.getElementById('h').textContent=String(h).padStart(2,'0');
+ document.getElementById('m').textContent=String(m).padStart(2,'0');
+ document.getElementById('s').textContent=String(s).padStart(2,'0');
+}
+setInterval(tick,1000);tick();
+</script>
+</body>
+</html>

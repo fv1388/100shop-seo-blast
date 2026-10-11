@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find Your Perfect 100shop Product | 100shop</title>
+<meta name="description" content="Take the 60-second 100shop product quiz and get a personalized recommendation — foundation, jewelry and more with worldwide shipping.">
+<link rel="canonical" href="https://get100shop.com/">
+<meta name="robots" content="index,follow">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif}
+body{background:linear-gradient(135deg,#7f5bf5 0%,#3b82f6 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
+.card{background:#fff;border-radius:18px;max-width:480px;width:100%;padding:28px;box-shadow:0 18px 50px rgba(0,0,0,.25);text-align:center}
+.card h1{font-size:22px;color:#1f2937;margin-bottom:6px}
+.card .sub{font-size:13px;color:#6b7280;margin-bottom:18px}
+.badge{display:inline-block;background:#fff7ed;color:#c2410c;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.q{font-size:17px;font-weight:700;color:#111827;min-height:44px;margin-bottom:16px}
+.opts{display:grid;gap:10px}
+.opt{border:2px solid #e5e7eb;border-radius:12px;padding:14px;font-size:14px;font-weight:600;color:#374151;cursor:pointer;transition:all .15s;background:#fff}
+.opt:hover{border-color:#3b82f6;background:#eff6ff;transform:translateY(-1px)}
+.bar{height:6px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin-bottom:16px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#7f5bf5,#3b82f6);transition:width .3s}
+.result{display:none}
+.result h2{font-size:20px;color:#111827;margin-bottom:8px}
+.result .rec{font-size:15px;color:#374151;line-height:1.6;margin-bottom:14px}
+.result .rec b{color:#3b82f6}
+.cta{display:inline-block;background:linear-gradient(90deg,#7f5bf5,#3b82f6);color:#fff;font-weight:700;font-size:15px;padding:13px 26px;border-radius:12px;text-decoration:none;box-shadow:0 8px 20px rgba(59,130,246,.35)}
+.cta:hover{opacity:.92}
+.restart{margin-top:14px;background:none;border:none;color:#6b7280;font-size:13px;cursor:pointer;text-decoration:underline}
+@media(max-width:400px){.card{padding:22px}}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="badge">100Shop · Worldwide Shipping</div>
+  <h1>Find Your Perfect Product</h1>
+  <p class="sub">60-second quiz · personalized recommendation</p>
+  <div class="bar"><i id="bar" style="width:0%"></i></div>
+  <div id="quiz">
+    <div class="q" id="q"></div>
+    <div class="opts" id="opts"></div>
+  </div>
+  <div class="result" id="result">
+    <h2>Your Pick</h2>
+    <p class="rec" id="rec"></p>
+    <a class="cta" href="https://get100shop.com/">Shop Your Match Now →</a>
+    <br><button class="restart" onclick="restart()">Retake quiz</button>
+  </div>
+</div>
+<script>
+const questions=[
+ {q:"What are you shopping for today?",opts:["Skincare / Beauty","Fashion & Jewelry","Gifts","Just browsing"]},
+ {q:"What's your budget?",opts:["Under $15","$15–$25","$25–$50","No limit"]},
+ {q:"How fast do you want delivery?",opts:["Standard worldwide","Express / ASAP","Local pickup","Not sure"]},
+ {q:"How often do you shop online?",opts:["Every week","Every month","Occasionally","First time"]}
+];
+const recs=[
+ {title:"FV Signature Foundation",text:"The <b>FV Signature Foundation</b> is our bestseller — buildable coverage that lasts all day, shipped worldwide from 100shop. Pick it up and see why thousands love it."},
+ {title:"Vintage Lion Earrings",text:"Our <b>Vintage Lion Earrings</b> are trending — bold, lightweight and full of character. Grab a pair and elevate any outfit instantly."},
+ {title:"100shop Best-Value Bundle",text:"Start with our <b>Best-Value Bundle</b> — top-rated picks at a low price with worldwide shipping. The smartest way to try 100shop."}
+];
+let i=0, scores=[0,0,0];
+function show(){
+ if(i>=questions.length){finish();return;}
+ const qu=questions[i];
+ document.getElementById('q').textContent=qu.q;
+ const o=document.getElementById('opts');
+ o.innerHTML='';
+ qu.opts.forEach((t,idx)=>{
+   const b=document.createElement('button');
+   b.className='opt'; b.textContent=t;
+   b.onclick=()=>{scores[i%3]++; i++; document.getElementById('bar').style.width=(i/questions.length*100)+'%'; show();};
+   o.appendChild(b);
+ });
+}
+function finish(){
+ const rec=recs[scores.indexOf(Math.max(...scores))];
+ document.getElementById('quiz').style.display='none';
+ document.getElementById('result').style.display='block';
+ document.getElementById('rec').innerHTML=rec.text;
+}
+function restart(){i=0;scores=[0,0,0];document.getElementById('bar').style.width='0%';document.getElementById('result').style.display='none';document.getElementById('quiz').style.display='block';show();}
+show();
+</script>
+</body>
+</html>

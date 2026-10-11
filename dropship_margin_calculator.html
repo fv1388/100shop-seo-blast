@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dropshipping Margin Calculator | 100shop</title>
+<meta name="description" content="Calculate your dropshipping profit margin instantly. Free dropshipping margin calculator — see real profit on your 100shop store.">
+<link rel="canonical" href="https://get100shop.com/">
+<meta name="robots" content="index,follow">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif}
+body{background:#0f172a;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
+.card{background:#fff;border-radius:18px;max-width:460px;width:100%;padding:26px;box-shadow:0 18px 50px rgba(0,0,0,.3)}
+.card h1{font-size:21px;color:#111827;margin-bottom:4px}
+.card .sub{font-size:13px;color:#6b7280;margin-bottom:18px}
+label{display:block;font-size:12px;font-weight:600;color:#374151;margin:12px 0 4px}
+input{width:100%;padding:11px 13px;border:1.5px solid #d1d5db;border-radius:10px;font-size:15px}
+input:focus{outline:none;border-color:#7f5bf5}
+.result{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.stat{background:#f4f0ff;border-radius:12px;padding:14px;text-align:center}
+.stat .v{font-size:22px;font-weight:800;color:#7f5bf5}
+.stat .l{font-size:12px;color:#6b7280;margin-top:2px}
+.profit-good{background:#ecfdf5}.profit-good .v{color:#059669}
+.cta{display:block;text-align:center;margin-top:18px;background:linear-gradient(90deg,#7f5bf5,#3b82f6);color:#fff;font-weight:700;font-size:15px;padding:13px;border-radius:12px;text-decoration:none}
+.cta:hover{opacity:.92}
+.note{font-size:11px;color:#9ca3af;text-align:center;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Dropshipping Margin Calculator</h1>
+  <p class="sub">See your real profit per order — free to use</p>
+  <label>Product price you charge (USD)</label>
+  <input id="price" type="number" value="29.99" min="1">
+  <label>Your product cost (USD)</label>
+  <input id="cost" type="number" value="9.99" min="0">
+  <label>Shipping / ads cost (USD)</label>
+  <input id="ship" type="number" value="4.00" min="0">
+  <div class="result">
+    <div class="stat"><div class="v" id="profit">$0.00</div><div class="l">Profit / order</div></div>
+    <div class="stat profit-good"><div class="v" id="margin">0%</div><div class="l">Margin</div></div>
+  </div>
+  <a class="cta" href="https://get100shop.com/">Build Your Store at 100shop →</a>
+  <p class="note">Calculator only. 100shop gives you a free storefront with no monthly fees.</p>
+</div>
+<script>
+function calc(){
+ const p=parseFloat(document.getElementById('price').value)||0;
+ const c=parseFloat(document.getElementById('cost').value)||0;
+ const s=parseFloat(document.getElementById('ship').value)||0;
+ const profit=p-c-s;
+ const margin=p>0?(profit/p*100):0;
+ document.getElementById('profit').textContent='$'+profit.toFixed(2);
+ document.getElementById('margin').textContent=margin.toFixed(0)+'%';
+}
+['price','cost','ship'].forEach(id=>document.getElementById(id).addEventListener('input',calc));
+calc();
+</script>
+</body>
+</html>
