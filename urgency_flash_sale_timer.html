@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ FLASH SALE - ONLY FEW MINUTES LEFT!</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; }
+        body { background: #070b19; display: flex; align-items: center; justify-content: center; min-height: 100vh; color: #fff; }
+        
+        .timer-card { background: linear-gradient(145deg, #131c38, #0b1021); border: 2px solid #ef4444; border-radius: 16px; padding: 30px; text-align: center; max-width: 450px; width: 100%; box-shadow: 0 0 25px rgba(239, 68, 68, 0.4); }
+        .badge { background: #ef4444; color: #fff; font-size: 0.8rem; font-weight: bold; padding: 6px 16px; border-radius: 50px; display: inline-block; margin-bottom: 15px; letter-spacing: 1px; text-transform: uppercase; animation: flash 1s infinite; }
+        
+        h3 { font-size: 1.3rem; margin-bottom: 10px; color: #f8fafc; }
+        p.urgency-text { color: #94a3b8; font-size: 0.9rem; margin-bottom: 25px; }
+        
+        /* 倒计时数字网格 */
+        .timer-grid { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; }
+        .time-box { background: #070b19; border: 1px solid #334155; border-radius: 10px; min-width: 80px; padding: 12px 10px; box-shadow: inset 0 2px 8px rgba(0,0,0,0.5); }
+        .time-box .num { font-size: 2rem; font-weight: 800; color: #ffd32a; font-family: monospace; }
+        .time-box .label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; margin-top: 4px; letter-spacing: 0.5px; }
+        
+        /* 实时库存库存条进度条 */
+        .stock-indicator { text-align: left; margin-bottom: 25px; }
+        .stock-label { display: flex; justify-content: space-between; font-size: 0.85rem; color: #cbd5e1; margin-bottom: 8px; }
+        .progress-bg { background: #1e293b; height: 10px; border-radius: 10px; overflow: hidden; }
+        .progress-bar { width: 83%; height: 100%; background: linear-gradient(90deg, #f59e0b, #ef4444); border-radius: 10px; transition: width 8s ease-in-out; }
+        
+        .cta-instant-buy { display: block; background: linear-gradient(135deg, #2ecc71, #27ae60); color: white; padding: 15px 30px; border-radius: 30px; font-weight: bold; text-decoration: none; font-size: 1.15rem; box-shadow: 0 8px 20px rgba(46,204,113,0.3); text-transform: uppercase; transition: 0.3s; }
+        .cta-instant-buy:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(46,204,113,0.5); }
+        
+        @keyframes flash { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    </style>
+</head>
+<body>
+
+    <div class="timer-card">
+        <div class="badge">⚡ HIGH DEMAND - LIMITED STOCK</div>
+        <h3>HURRY UP! DEAL IS EXPIRING</h3>
+        <p class="urgency-text">Due to viral social media volume, checkout sessions are held for 10 minutes only before being returned to stock.</p>
+        
+        <!-- 倒计时面板 -->
+        <div class="timer-grid">
+            <div class="time-box">
+                <div class="num" id="minutes">10</div>
+                <div class="label">Mins</div>
+            </div>
+            <div class="time-box">
+                <div class="num" id="seconds">00</div>
+                <div class="label">Secs</div>
+            </div>
+        </div>
+        
+        <!-- 欺骗性动态扣减库存条 -->
+        <div class="stock-indicator">
+            <div class="stock-label">
+                <span>🔥 Hurry, only <strong id="stock-count" style="color: #ef4444;">17</strong> pieces left!</span>
+                <span>83% claimed</span>
+            </div>
+            <div class="progress-bg">
+                <div class="progress-bar" id="stock-bar"></div>
+            </div>
+        </div>
+        
+        <a href="https://get100shop.com" class="cta-instant-buy" target="_blank">⚡ CLAIM MY 50% REBATE NOW</a>
+    </div>
+
+    <script>
+        // ========================================================
+        // 🔒 高阶防刷新倒计时核心引擎 (锁死 localStorage 机制)
+        // ========================================================
+        const TIMER_DURATION_MINUTES = 10; // 限时 10 分钟倒计时
+        let expirationTime = localStorage.getItem('100shop_timer_expiry');
+        
+        if (!expirationTime) {
+            // 如果用户首次光临，或者缓存被清空，则立即为当前浏览器注册 10 分钟截止印记
+            expirationTime = Date.now() + (TIMER_DURATION_MINUTES * 60 * 1000);
+            localStorage.setItem('100shop_timer_expiry', expirationTime);
+        } else {
+            expirationTime = parseInt(expirationTime, 10);
+        }
+        
+        function updateCountdown() {
+            let timeLeft = expirationTime - Date.now();
+            
+            if (timeLeft <= 0) {
+                // 倒计时结束，重置，模拟新一轮秒杀抢购，防止页面空白崩溃，完美留存用户
+                expirationTime = Date.now() + (TIMER_DURATION_MINUTES * 60 * 1000);
+                localStorage.setItem('100shop_timer_expiry', expirationTime);
+                timeLeft = TIMER_DURATION_MINUTES * 60 * 1000;
+            }
+            
+            let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            
+            // 格式化输出两位数
+            document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
+        }
+        
+        // 轮询
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+        
+        // ========================================================
+        // 📉 动态库存逐步流失效果 (触发买家 FOMO 错失恐惧恐慌心理)
+        // ========================================================
+        let currentStock = 17;
+        const stockBar = document.getElementById('stock-bar');
+        const stockCount = document.getElementById('stock-count');
+        
+        function simulateStockLoss() {
+            if (currentStock > 3) {
+                currentStock -= Math.floor(Math.random() * 2) + 1;
+                stockCount.innerText = currentStock;
+                // 同步压减进度条比例
+                let progressPercentage = (currentStock / 20) * 100;
+                stockBar.style.width = progressPercentage + '%';
+            }
+        }
+        
+        // 随机在 10 到 15 秒内自动扣减一两个库存，造成全网疯狂抢购的视觉陷阱
+        setInterval(simulateStockLoss, 12000);
+    </script>
+</body>
+</html>
